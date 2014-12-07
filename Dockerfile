@@ -5,9 +5,9 @@ RUN \
 
 # Install gogs
 RUN \
-  go get -tags sqlite github.com/gogits/gogs && \
+  go get -tags 'sqlite cert' github.com/gogits/gogs && \
   cd /go/src/github.com/gogits/gogs && \
-  go build -tags sqlite
+  go build -tags 'sqlite cert'
 
 RUN useradd --shell /bin/bash --home /data/git git
 
