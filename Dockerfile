@@ -1,10 +1,23 @@
 from jpodeszwik/rpi-golang
 
-RUN apt-get install -y git
+RUN \
+  apt-get install -y git
 
-RUN go get -u github.com/gogits/gogs && \
+# Install gogs
+RUN \
+  go get -tags sqlite github.com/gogits/gogs && \
   cd /go/src/github.com/gogits/gogs && \
-  go build
+  go build -tags sqlite
 
-CMD /go/src/github.com/gogits/gogs/gogs web
+RUN useradd --shell /bin/bash --home /data/git git
+
+ENV GOGS_CUSTOM /data
+
+WORKDIR /data
+
+VOLUME /data
+
+ADD run.sh /bin/
+
+CMD /bin/run.sh
 
